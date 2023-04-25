@@ -109,6 +109,7 @@ public class Graph<N, E> {
         }
         return edges;
     }
+
     //CONTROLLARE QUALE USARE
     public List<N> getNeighbors(N node) {
         List<N> neighbors = new ArrayList<>();

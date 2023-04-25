@@ -41,15 +41,23 @@ public class GraphTest {
     graph.addEdge("start","way2",8.0);
     graph.addEdge("start","way3",10.0);
     List<Edge<String,Double>> check = new ArrayList<>();
-    check.add(new Edge<>("way1",6.0));
-    check.add(new Edge<>("way2",8.0));
-    check.add(new Edge<>("way3",10.0));
-    assertEquals(graph.getAdjacentVertex("start"),check);
+    check.add(new Edge<>("start","way1",6.0));
+    check.add(new Edge<>("start","way2",8.0));
+    check.add(new Edge<>("start","way3",10.0));
+    assertEquals(graph.getAdjacentNodes("start").get(0).getDest(),check.get(0).getDest());
+    assertEquals(graph.getAdjacentNodes("start").get(1).getDest(),check.get(1).getDest());
+    assertEquals(graph.getAdjacentNodes("start").get(2).getDest(),check.get(2).getDest());
+    assertEquals(graph.getAdjacentNodes("start").get(0).getLabel(),check.get(0).getLabel());
+    assertEquals(graph.getAdjacentNodes("start").get(1).getLabel(),check.get(1).getLabel());
+    assertEquals(graph.getAdjacentNodes("start").get(2).getLabel(),check.get(2).getLabel());
+    //assertEquals(graph.getAdjacentNodes("start"),check);
   }
   @Test
   public void CorrectEdgeOperation() throws Exception {
-    Edge<String,Double> edge1 = new Edge<>("way1",10.0);
-    Edge<String,Double> edge2 = new Edge<>("way2",15.5);
-    assertEquals((double)Edge.add(edge1.getLabel(),edge2.getLabel()),25.5, 0.001);
+    Edge<String,Double> edge1 = new Edge<>("start","way1",10.0);
+    Edge<String,Double> edge2 = new Edge<>("start","way2",15.5);
+    Edge<String,Double> support= edge1.add(edge2);
+    double result= (double)support.getLabel();
+    assertEquals(result,25.5, 0.001);
   }
  }

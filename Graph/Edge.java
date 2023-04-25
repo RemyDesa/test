@@ -26,27 +26,54 @@ public class Edge<N, E> {
     public E getLabel() {
         return label;
     }
-    //find on stackOverflow, used to don't show the warnings
-    @SuppressWarnings("unchecked")
-    public Edge add(Edge other) throws Exception {
-            if(other == null) {
-                throw new Exception("Edge add: Illegal Arguments");
-            }
-            if(label instanceof Integer) {
-                int sum = label.intValue() + other.label.intValue();
-                return new Edge(source, dest, sum);
-            } else if(label instanceof Double) {
-                double sum = label.doubleValue() + other.label.doubleValue();
-                return new Edge(source, dest, sum);
-            } else if(label instanceof Float) {
-                float sum = label.floatValue() + other.label.floatValue();
-                return new Edge(source, dest, sum);
-            } else {
-                throw new Exception("Edge add: Illegal Arguments");
-            }
+    /*
+    public Edge<N, E> add(Edge<N, E> other) {
+        E newLabel = null;
+        if (this.label instanceof Integer && other.label instanceof Integer) {
+            newLabel = (E) Integer.valueOf(this.label.intValue() + other.label.intValue());
+        } else if (this.label instanceof Double && other.label instanceof Double) {
+            newLabel = (E) Double.valueOf(this.label.doubleValue() + other.label.doubleValue());
+        } else if (this.label instanceof Float && other.label instanceof Float) {
+            newLabel = (E) Float.valueOf(this.label.floatValue() + other.label.floatValue());
+        } else {
+            throw new IllegalArgumentException("Edge add: Illegal Arguments");
+        }
+        return new Edge<>(this.source, other.dest, newLabel);
     }
-
-    public int compareTo(Edge other) {
-        return label.compareTo(other.label);
+*/
+    //find on stackOverflow, used to don't show the warnings
+  @SuppressWarnings("unchecked")
+    public Edge<N, E> add(Edge<N, E> other) throws Exception {
+    if (other == null) {
+        throw new Exception("Edge add: Illegal Arguments");
+    }
+    
+    if (label instanceof Number && other.label instanceof Number) {
+        Number thisNumber = (Number) label;
+        Number otherNumber = (Number) other.label;
+        
+        if (thisNumber instanceof Integer && otherNumber instanceof Integer) {
+            int sum = thisNumber.intValue() + otherNumber.intValue();
+            return new Edge<>(source, dest, (E) Integer.valueOf(sum));
+        } else if (thisNumber instanceof Double && otherNumber instanceof Double) {
+            double sum = thisNumber.doubleValue() + otherNumber.doubleValue();
+            return new Edge<>(source, dest, (E) Double.valueOf(sum));
+        } else if (thisNumber instanceof Float && otherNumber instanceof Float) {
+            float sum = thisNumber.floatValue() + otherNumber.floatValue();
+            return new Edge<>(source, dest, (E) Float.valueOf(sum));
+        } else {
+            throw new Exception("Edge add: Illegal Arguments");
+        }
+    } else {
+        throw new Exception("Edge add: Illegal Arguments");
+    }
+}
+    @SuppressWarnings("unchecked")
+   public int compareTo(Edge<N, E> other) {
+        if (label instanceof Comparable && other.label instanceof Comparable) {
+            return ((Comparable<E>) label).compareTo(other.label);
+        } else {
+            throw new ClassCastException("Edge compareTo: Labels are not comparable");
+        }
     }
 }
