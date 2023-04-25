@@ -9,6 +9,10 @@ public class Edge<N, E> {
     private N dest;
     private E label;
 
+    public Edge(N source, N dest) {
+        this.source = source;
+        this.dest = dest;
+    }
     public Edge(N source, N dest, E label) {
         this.source = source;
         this.dest = dest;
@@ -49,7 +53,7 @@ public class Edge<N, E> {
         }
         
         if (label instanceof Number && other.label instanceof Number) {
-            Number thisNumber = (Number) label;
+            Number thisNumber = (Number) this.label;
             Number otherNumber = (Number) other.label;
             
             if (thisNumber instanceof Integer && otherNumber instanceof Integer) {
@@ -81,5 +85,21 @@ public class Edge<N, E> {
     public String toString() {
         return source.toString() + " --(" + label.toString() + ")--> " + dest.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Edge<?, ?> edge = (Edge<?, ?>) o;
+        return Objects.equals(source, edge.source) && Objects.equals(dest, edge.dest);
+    }
+    @Override
+    public int hashCode() {
+       return Objects.hash(source,dest);
+     }
 
 }

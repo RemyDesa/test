@@ -61,19 +61,22 @@ public class Dijkstra<T,G extends Number> {
     while (!pq.isEmpty()) {
             Edge<T, G> curr = pq.extractMin(); // Extract node with minimum distance
             G currDist = distances.get(curr.getDest()); // Current distance to curr node
-            System.out.println(curr.getDest());
+            System.out.println(curr.getSource());
             // Update distances to adjacent nodes
-            for (Edge<T, G> edge : graph.getAdjacentNodes(curr.getDest())) {
-                System.out.println()
-                T adjNode = edge.getDest();
+            for (Edge<T, G> edge : graph.getAdjacentNodes(curr.getSource())) {
+                System.out.println("EDGE: "+edge.toString()+ " CURRENT: "+curr.toString());
+                //T adjNode = edge.getDest();
                 //G newDist = edge.add(currDist, edge.getLabel()); // New distance to adjNode
-                Edge<T,G> support= curr.add(edge);
-                if (pq.contains(new Edge<>(start, support.getSource(), distances.get(adjNode))) &&
-                    curr.compareTo(support) < 0) {
+                Edge<T,G> support= curr;
+                support= support.add(edge);
+                Edge<T,G> test=new Edge<>(curr.getSource(), edge.getDest(), distances.get(edge.getDest()));
+                System.out.println("TEST EDGE: "+test+ "VAlore confronto: "+ support.compareTo(edge)+ "CONTIENE: "+pq.contains(new Edge<>(curr.getSource(), edge.getDest(), distances.get(edge.getDest()))));
+                if (pq.contains(new Edge<>(curr.getSource(), edge.getDest(), distances.get(edge.getDest()))) &&
+                    support.compareTo(edge) > 0) {
                     // Update distance to adjNode and decrease key in priority queue
                     G newDist = support.getLabel();
-                    distances.put(adjNode, newDist);
-                    pq.decreaseKey(/*new Edge<>(start, adjNode, distances.get(adjNode))*/curr, new Edge<>(start, adjNode, newDist));
+                    distances.put(edge.getDest(), newDist);
+                    pq.decreaseKey(/*new Edge<>(start, adjNode, distances.get(adjNode))*/curr, new Edge<>(start, edge.getDest(), newDist));
                 }
             }
         }

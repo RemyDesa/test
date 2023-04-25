@@ -68,12 +68,13 @@ public class MinHeap <T> {
   }
   //decrease the value based on comparator function of a determinate element in the min heap
   public void decreaseKey(T item,T dcr) throws MinHeapException {
-    System.out.println("Sono in decrease");
+    System.out.println("Sono in decrease "+dcr.toString());
     if(comparator.compare(item,dcr)<0)
      throw new MinHeapException("decreaseKey: Previous item was smaller than this!");
     if(!map.containsKey(item))
       throw new MinHeapException("decreaseKey: Min Heap not contain current value!");
     int size = getPosition(item);
+    System.out.println(size);
     heap_array.set(size,dcr);
     map.replace(dcr,size);
     while(size > 0 && comparator.compare(heap_array.get(parent(size)),heap_array.get(size)) > 0) {
