@@ -12,7 +12,7 @@ public class Main {
     System.out.println(graph.toString());
     String start = (args[0]);
     Map<String,Double> result;
-    if (graph.hasVertex(start))
+    if (graph.containsNode(start))
       result = new Dijkstra<String,Double>().dijkstra(graph,start,new WeightCompareDouble(),0.0,Double.POSITIVE_INFINITY);
     else
       throw new Exception("Starting point doesn't exist");
@@ -26,8 +26,8 @@ public class Main {
     sc.useDelimiter("[,\r\n]+");
     while(sc.hasNext()){
       Nodes += sc.next();
-      if(!tmp.hasVertex(Nodes))
-        tmp.addVertex(Nodes);
+      if(!tmp.containsNode(Nodes))
+        tmp.addNode(Nodes);
       tmp.addEdge(Nodes,sc.next(),Double.parseDouble(sc.next()));
       Nodes = "";
     }

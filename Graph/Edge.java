@@ -44,30 +44,31 @@ public class Edge<N, E> {
     //find on stackOverflow, used to don't show the warnings
   @SuppressWarnings("unchecked")
     public Edge<N, E> add(Edge<N, E> other) throws Exception {
-    if (other == null) {
-        throw new Exception("Edge add: Illegal Arguments");
-    }
-    
-    if (label instanceof Number && other.label instanceof Number) {
-        Number thisNumber = (Number) label;
-        Number otherNumber = (Number) other.label;
+        if (other == null) {
+            throw new Exception("Edge add: Illegal Arguments");
+        }
         
-        if (thisNumber instanceof Integer && otherNumber instanceof Integer) {
-            int sum = thisNumber.intValue() + otherNumber.intValue();
-            return new Edge<>(source, dest, (E) Integer.valueOf(sum));
-        } else if (thisNumber instanceof Double && otherNumber instanceof Double) {
-            double sum = thisNumber.doubleValue() + otherNumber.doubleValue();
-            return new Edge<>(source, dest, (E) Double.valueOf(sum));
-        } else if (thisNumber instanceof Float && otherNumber instanceof Float) {
-            float sum = thisNumber.floatValue() + otherNumber.floatValue();
-            return new Edge<>(source, dest, (E) Float.valueOf(sum));
+        if (label instanceof Number && other.label instanceof Number) {
+            Number thisNumber = (Number) label;
+            Number otherNumber = (Number) other.label;
+            
+            if (thisNumber instanceof Integer && otherNumber instanceof Integer) {
+                int sum = thisNumber.intValue() + otherNumber.intValue();
+                return new Edge<>(source, dest, (E) Integer.valueOf(sum));
+            } else if (thisNumber instanceof Double && otherNumber instanceof Double) {
+                double sum = thisNumber.doubleValue() + otherNumber.doubleValue();
+                System.out.println("Somma= "+sum);
+                return new Edge<>(source, dest, (E) Double.valueOf(sum));
+            } else if (thisNumber instanceof Float && otherNumber instanceof Float) {
+                float sum = thisNumber.floatValue() + otherNumber.floatValue();
+                return new Edge<>(source, dest, (E) Float.valueOf(sum));
+            } else {
+                throw new Exception("Edge add: Illegal Arguments");
+            }
         } else {
             throw new Exception("Edge add: Illegal Arguments");
         }
-    } else {
-        throw new Exception("Edge add: Illegal Arguments");
     }
-}
     @SuppressWarnings("unchecked")
    public int compareTo(Edge<N, E> other) {
         if (label instanceof Comparable && other.label instanceof Comparable) {
@@ -76,4 +77,9 @@ public class Edge<N, E> {
             throw new ClassCastException("Edge compareTo: Labels are not comparable");
         }
     }
+    @Override
+    public String toString() {
+        return source.toString() + " --(" + label.toString() + ")--> " + dest.toString();
+    }
+
 }

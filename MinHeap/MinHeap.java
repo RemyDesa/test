@@ -68,6 +68,7 @@ public class MinHeap <T> {
   }
   //decrease the value based on comparator function of a determinate element in the min heap
   public void decreaseKey(T item,T dcr) throws MinHeapException {
+    System.out.println("Sono in decrease");
     if(comparator.compare(item,dcr)<0)
      throw new MinHeapException("decreaseKey: Previous item was smaller than this!");
     if(!map.containsKey(item))

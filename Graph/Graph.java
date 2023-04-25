@@ -123,6 +123,7 @@ public class Graph<N, E> {
 
     public List<Edge<N, E>> getAdjacentNodes(N node) {
         if (!containsNode(node)) {
+            System.out.println("NULLADJACENT");
             return null;
         }
 
@@ -138,5 +139,16 @@ public class Graph<N, E> {
             }
         }
         return null;
+    }
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Graph:\n");
+        for (Map.Entry<N, List<Edge<N, E>>> entry : adjacencyMap.entrySet()) {
+            sb.append(entry.getKey().toString());
+            sb.append(": ");
+            sb.append(entry.getValue().toString());
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

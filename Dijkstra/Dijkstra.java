@@ -25,11 +25,13 @@ public class Dijkstra<T,G extends Number> {
           if (node.equals(start)) {
               distances.put(start, startValue);
               support=startValue;
+              pq.insert(new Edge<T,G>(node, start,support));
           } else {
               distances.put(node, inf);
               support=inf;
+              pq.insert(new Edge<T,G>(start, node,support));
           }
-          pq.insert(new Edge<>(node, distances.get(node),support));
+          //pq.insert(new Edge<T,G>(node, distances.get(node),support));
       }
       /*
     while (!pq.isEmpty()) { //O(n)
@@ -59,17 +61,19 @@ public class Dijkstra<T,G extends Number> {
     while (!pq.isEmpty()) {
             Edge<T, G> curr = pq.extractMin(); // Extract node with minimum distance
             G currDist = distances.get(curr.getDest()); // Current distance to curr node
-
+            System.out.println(curr.getDest());
             // Update distances to adjacent nodes
             for (Edge<T, G> edge : graph.getAdjacentNodes(curr.getDest())) {
+                System.out.println()
                 T adjNode = edge.getDest();
-                G newDist = Edge.add(currDist, edge.getLabel()); // New distance to adjNode
-
-                if (pq.contains(new Edge<>(adjNode, distances.get(adjNode))) &&
-                        Edge.compare(newDist, distances.get(adjNode)) < 0) {
+                //G newDist = edge.add(currDist, edge.getLabel()); // New distance to adjNode
+                Edge<T,G> support= curr.add(edge);
+                if (pq.contains(new Edge<>(start, support.getSource(), distances.get(adjNode))) &&
+                    curr.compareTo(support) < 0) {
                     // Update distance to adjNode and decrease key in priority queue
+                    G newDist = support.getLabel();
                     distances.put(adjNode, newDist);
-                    pq.decreaseKey(new Edge<>(adjNode, distances.get(adjNode)), new Edge<>(adjNode, newDist));
+                    pq.decreaseKey(/*new Edge<>(start, adjNode, distances.get(adjNode))*/curr, new Edge<>(start, adjNode, newDist));
                 }
             }
         }
